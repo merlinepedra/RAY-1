@@ -18,7 +18,7 @@ from uvicorn.lifespan.on import LifespanOn
 
 import ray
 from ray import cloudpickle
-from ray.experimental.dag import DAGNode
+from ray.dag import DAGNode
 from ray.util.annotations import PublicAPI
 from ray.util.scheduling_strategies import NodeAffinitySchedulingStrategy
 from ray._private.usage import usage_lib
