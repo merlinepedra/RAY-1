@@ -222,13 +222,13 @@ def test_multiple_routers(ray_cluster):
         return proxy_names
 
     wait_for_condition(lambda: len(get_proxy_names()) == 2)
-    proxy_names = get_proxy_names()
+    original_proxy_names = get_proxy_names()
 
     # Two actors should be started.
     def get_first_two_actors():
         try:
-            ray.get_actor(proxy_names[0], namespace=SERVE_NAMESPACE)
-            ray.get_actor(proxy_names[1], namespace=SERVE_NAMESPACE)
+            ray.get_actor(original_proxy_names[0], namespace=SERVE_NAMESPACE)
+            ray.get_actor(original_proxy_names[1], namespace=SERVE_NAMESPACE)
             return True
         except ValueError:
             return False
@@ -249,7 +249,7 @@ def test_multiple_routers(ray_cluster):
     new_node = cluster.add_node()
 
     wait_for_condition(lambda: len(get_proxy_names()) == 3)
-    third_proxy = get_proxy_names()[2]
+    (third_proxy,) = set(get_proxy_names()) - set(original_proxy_names)
 
     def get_third_actor():
         try:

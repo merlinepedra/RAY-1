@@ -151,7 +151,8 @@ def get_all_node_ids() -> List[Tuple[str, str]]:
     passed into the Ray SchedulingPolicy API.
     """
     node_ids = []
-    for node in ray.nodes():
+    # Sort on NodeID to ensure the ordering is deterministic across the cluster.
+    for node in sorted(ray.nodes(), key=lambda entry: entry["NodeID"]):
         if node["Alive"]:
             node_ids.append((node["NodeID"], node["NodeName"]))
 
