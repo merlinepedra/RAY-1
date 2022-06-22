@@ -73,6 +73,12 @@ DEFINE_stats(object_manager_bytes,
              (),
              ray::stats::GAUGE);
 
+DEFINE_stats(STATS_object_manager_received_bytes,
+             "Number of bytes received by ip.",
+             ("FromIp"),
+             (),
+             ray::stats::GAUGE);
+
 DEFINE_stats(object_manager_received_chunks,
              "Number object chunks received broken per type {Total, FailedTotal, "
              "FailedCancelled, FailedPlasmaFull}.",

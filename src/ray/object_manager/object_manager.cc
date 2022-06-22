@@ -591,6 +591,7 @@ bool ObjectManager::ReceiveObjectChunk(const NodeID &node_id,
                                        uint64_t chunk_index,
                                        const std::string &data) {
   num_bytes_received_total_ += data.size();
+  num_bytes_received_by_ip_[node_id] += data.size();
   RAY_LOG(DEBUG) << "ReceiveObjectChunk on " << self_node_id_ << " from " << node_id
                  << " of object " << object_id << " chunk index: " << chunk_index
                  << ", chunk data size: " << data.size()
@@ -755,6 +756,10 @@ void ObjectManager::RecordMetrics() {
   ray::stats::STATS_object_manager_bytes.Record(num_bytes_pushed_from_disk_,
                                                 "PushedFromLocalDisk");
   ray::stats::STATS_object_manager_bytes.Record(num_bytes_received_total_, "Received");
+
+  for (auto const& x : num_bytes_received_by_ip_) {
+    ray::stats::STATS_object_manager_received_bytes.Record(x.second, x.first);
+  }
 
   ray::stats::STATS_object_manager_received_chunks.Record(num_chunks_received_total_,
                                                           "Total");
