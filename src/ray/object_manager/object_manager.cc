@@ -758,7 +758,7 @@ void ObjectManager::RecordMetrics() {
   ray::stats::STATS_object_manager_bytes.Record(num_bytes_received_total_, "Received");
 
   for (auto const& x : num_bytes_received_by_ip_) {
-    ray::stats::STATS_object_manager_received_bytes.Record(x.second, x.first);
+    ray::stats::STATS_object_manager_received_bytes.Record(x.second, {{"FromId", x.first.Hex()}, {"ToId", self_node_id_.Hex()}});
   }
 
   ray::stats::STATS_object_manager_received_chunks.Record(num_chunks_received_total_,

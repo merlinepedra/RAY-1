@@ -56,6 +56,7 @@ DECLARE_stats(grpc_server_req_finished);
 
 /// Object Manager.
 DECLARE_stats(object_manager_bytes);
+DECLARE_stats(object_manager_received_bytes);
 DECLARE_stats(object_manager_received_chunks);
 
 /// Pull Manager

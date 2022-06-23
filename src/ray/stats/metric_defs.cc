@@ -73,9 +73,9 @@ DEFINE_stats(object_manager_bytes,
              (),
              ray::stats::GAUGE);
 
-DEFINE_stats(STATS_object_manager_received_bytes,
+DEFINE_stats(object_manager_received_bytes,
              "Number of bytes received by ip.",
-             ("FromIp"),
+             ("FromId", "ToId"),
              (),
              ray::stats::GAUGE);
 

@@ -463,7 +463,7 @@ class ObjectManager : public ObjectManagerInterface,
   /// Metrics for bytes pushed and received.
   size_t num_bytes_received_total_ = 0;
   absl::flat_hash_map<
-      std::string,
+      NodeID,
       size_t>
       num_bytes_received_by_ip_;
   size_t num_bytes_pushed_from_disk_ = 0;
