@@ -9,15 +9,17 @@ import time
 import traceback
 from enum import Enum
 from functools import wraps
+from itertools import groupby
 from typing import Dict, Iterable, List, Tuple
 
 import fastapi.encoders
 import numpy as np
 import pydantic
 import pydantic.json
-import ray
-import ray.serialization_addons
 import requests
+
+import ray
+import ray.util.serialization_addons
 from ray.actor import ActorHandle
 from ray.exceptions import RayTaskError
 from ray.serve.constants import HTTP_PROXY_TIMEOUT
@@ -216,7 +218,7 @@ def ensure_serialization_context():
     """Ensure the serialization addons on registered, even when Ray has not
     been started."""
     ctx = StandaloneSerializationContext()
-    ray.serialization_addons.apply(ctx)
+    ray.util.serialization_addons.apply(ctx)
 
 
 def wrap_to_ray_error(function_name: str, exception: Exception) -> RayTaskError:
@@ -231,7 +233,7 @@ def wrap_to_ray_error(function_name: str, exception: Exception) -> RayTaskError:
 
 
 def msgpack_serialize(obj):
-    ctx = ray.worker.global_worker.get_serialization_context()
+    ctx = ray._private.worker.global_worker.get_serialization_context()
     buffer = ctx.serialize(obj)
     serialized = buffer.to_bytes()
     return serialized
