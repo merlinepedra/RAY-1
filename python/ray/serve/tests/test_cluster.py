@@ -91,6 +91,9 @@ def test_node_failure(ray_cluster):
         while len(pids) < expected:
             pids.add(requests.get("http://localhost:8000/D").text)
             if time.time() - start >= timeout:
+                while True:
+                    print("ERROR")
+                    time.sleep(1)
                 raise TimeoutError("Timed out waiting for pids.")
         return pids
 

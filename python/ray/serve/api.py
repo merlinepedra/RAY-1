@@ -146,7 +146,7 @@ def start(
         # Schedule the controller on the head node with a soft constraint. This
         # prefers it to run on the head node in most cases, but allows it to be
         # restarted on other nodes in an HA cluster.
-        scheduling_strategy=NodeAffinitySchedulingStrategy(head_node_id, soft=False),
+        scheduling_strategy=NodeAffinitySchedulingStrategy(head_node_id, soft=True),
         namespace=SERVE_NAMESPACE,
         max_concurrency=CONTROLLER_MAX_CONCURRENCY,
     ).remote(
